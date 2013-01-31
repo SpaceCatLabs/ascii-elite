@@ -2,6 +2,7 @@
 
 require "bundler/setup"
 require "gaminator"
+require "pry"
 
 require_relative "ascii_elite/char"
 require_relative "ascii_elite/menu"
@@ -19,14 +20,15 @@ class AsciiElite
     @height = height
     @exit_message = ''
 
-    @inventory = {}
+    @inventory = {:food => 0, :minerals => 0}
     @credits = 100
 
     @planet_name = 'Lave'
     @planet = PLANETS[@planet_name]
 
     @game_state = :shop
-    @game = IntroGame.new(@width, @height)
+    #@game = IntroGame.new(@width, @height)
+    @game = ShopGame.new(@width, @height, 'Lave')
   end
 
   def input_map
@@ -109,20 +111,20 @@ class AsciiElite
     when :buy_food
       buy(:food)
     when :sell_minerals
-      sell(:sell_minerals)
+      sell(:minerals)
     when :sell_food
-      sell(:sell_food)
+      sell(:food)
     end
   end
 
   def buy(product)
-    price = @planet["buy_#{product}"]
-    @credits -= 1
+    price = @planet["#{product}_price".to_sym]
+    @credits -= price
   end
 
   def sell(product)
-    price = @planet["sell_#{product}"]
-    @credits += 1
+    price = @planet["#{product}_price".to_sym]
+    @credits += price
   end
 
 end
