@@ -2,6 +2,7 @@
 
 require "bundler/setup"
 require "gaminator"
+load "space_base.rb"
 
 class AsciiElite
   class Player < Struct.new(:x, :y)
@@ -23,6 +24,7 @@ class AsciiElite
     @width = width
     @height = height
     @player = Player.new(5,5)
+    @base = SpaceBase.new(10,10)
   end
 
   def wait?
@@ -48,7 +50,7 @@ class AsciiElite
   end
 
   def objects
-    [@player]
+    [@player, @base]
   end
 
   def finish
