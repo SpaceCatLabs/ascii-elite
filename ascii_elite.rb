@@ -80,7 +80,7 @@ class AsciiElite
   end
 
   def textbox_content
-   "Credits: #{@credits.to_f.round(2)}"
+   "Credits: #{@credits.to_f.round(2)}    Food: #{@inventory[:food]}    Minerals: #{@inventory[:minerals]}"
   end
 
   def exit
@@ -119,12 +119,19 @@ class AsciiElite
 
   def buy(product)
     price = @planet["#{product}_price".to_sym]
+
+    return if @credits < price
+
     @credits -= price
+    @inventory[:minerals] += 1
   end
 
   def sell(product)
+    return if @inventory[:minerals] < 1
+
     price = @planet["#{product}_price".to_sym]
-    @credits += price
+    @credits += price - 0.1
+    @inventory[:minerals] -= 1
   end
 
 end

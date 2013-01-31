@@ -67,7 +67,6 @@ class ShopGame
   end
 
   def textbox_content
-    @selection.to_s
   end
 
   def exit
