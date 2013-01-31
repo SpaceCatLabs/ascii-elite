@@ -27,8 +27,8 @@ class AsciiElite
     @planet = PLANETS[@planet_name]
 
     @game_state = :shop
-    #@game = IntroGame.new(@width, @height)
-    @game = ShopGame.new(@width, @height, 'Lave')
+    @game = IntroGame.new(@width, @height)
+    #@game = ShopGame.new(@width, @height, 'Lave')
   end
 
   def input_map

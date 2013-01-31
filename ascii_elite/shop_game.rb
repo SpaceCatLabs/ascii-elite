@@ -5,11 +5,21 @@ PLANETS = {
   'Zaonce' => { :food_price => 2.1, :minerals_price => 5.3},
 }
 
+
+$last_planet = 'Lave'
+
 class ShopGame
   def initialize(width, height, planet_name)
     @width = width
     @height = height
-    @planet_name = planet_name
+
+    if $last_planet == 'Lave'
+      @planet_name = 'Zaonce'
+    else
+      @planet_name = 'Lave'
+    end
+    $last_planet = @planet_name
+
     @planet = PLANETS[@planet_name]
 
     @options = {
