@@ -8,8 +8,10 @@ require_relative "ascii_elite/menu"
 require_relative "ascii_elite/shop_game"
 require_relative "ascii_elite/dock_game"
 require_relative "ascii_elite/intro_game"
+require_relative "ascii_elite/warp_game"
 require_relative "ascii_elite/space_base"
 require_relative "ascii_elite/logo"
+require_relative "ascii_elite/space_ship_in_warp"
 
 class AsciiElite
   def initialize(width, height)
@@ -18,8 +20,8 @@ class AsciiElite
     @exit_message = ''
 
     @game_state = :shop
-    # @game = ShopGame.new(@width, @height)
     @game = IntroGame.new(@width, @height)
+    # @game = WarpGame.new(@width, @height)
   end
 
   def input_map
@@ -89,6 +91,8 @@ class AsciiElite
       @game = DockGame.new(@width, @height)
     when :docked
       @game = ShopGame.new(@width, @height)
+    when :go_to_warp
+      @game = WarpGame.new(@width, @height)
     when :dead
       @exit_message = 'You are dead ;('
       Kernel.exit

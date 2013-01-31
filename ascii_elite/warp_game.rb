@@ -1,22 +1,29 @@
-class IntroGame
+class WarpGame
   def initialize(width, height)
     @width = width
     @height = height
-    @logo = Logo.new(1,1)
+    @spaceship = SpaceShipInWarp.new(10,3)
   end
 
   def wait?
-    true
+    false
   end
 
   def tick
+    move_ship
+    finished?
+  end
+
+  def move_ship
+    @spaceship.x = @spaceship.x + 1
   end
 
   def objects
-    [@logo]
+    [@spaceship]
   end
 
-  def finish
+  def finished?
+    exit if @spaceship.x == 128
   end
 
   def textbox_content
