@@ -17,8 +17,14 @@ class AsciiElite
     @height = height
     @exit_message = ''
 
+    @inventory = {}
+    @credits = 100
+
+    @planet_name = 'Lave'
+    @planet = PLANETS[@planet_name]
+
     @game_state = :shop
-    @game = ShopGame.new(@width, @height)
+    @game = ShopGame.new(@width, @height, @planet_name)
   end
 
   def input_map
@@ -71,7 +77,7 @@ class AsciiElite
   end
 
   def textbox_content
-    @game.textbox_content
+   "Credits: #{@credits.to_f.round(2)}"
   end
 
   def exit
@@ -83,7 +89,9 @@ class AsciiElite
   end
 
   def update_game_state(action)
-    case action
+    return unless action
+
+    case action.to_s.to_sym
     when :go_to_dock_game
       @game = DockGame.new(@width, @height)
     when :docked
@@ -91,7 +99,25 @@ class AsciiElite
     when :dead
       @exit_message = 'You are dead ;('
       Kernel.exit
+    when :buy_minerals
+      buy(:minerals)
+    when :buy_food
+      buy(:food)
+    when :sell_minerals
+      sell(:sell_minerals)
+    when :sell_food
+      sell(:sell_food)
     end
+  end
+
+  def buy(product)
+    price = @planet["buy_#{product}"]
+    @credits -= 1
+  end
+
+  def sell(product)
+    price = @planet["sell_#{product}"]
+    @credits += 1
   end
 
 end

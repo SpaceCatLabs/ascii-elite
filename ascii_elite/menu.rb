@@ -33,7 +33,7 @@ class Menu
   end
 
   def selection
-    @selection
+    @selection - 1
   end
 end
 
