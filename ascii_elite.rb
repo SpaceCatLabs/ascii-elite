@@ -25,10 +25,11 @@ class AsciiElite
     @height = height
     @player = Player.new(5,19)
     @base = SpaceBase.new(90,0)
+    @won = false
   end
 
   def move_base
-    @base.y = @base.y + rand(-1..1)
+    @base.y = @base.y + rand(-1..1) unless @won
   end
 
   def move_player
@@ -43,10 +44,24 @@ class AsciiElite
     true
   end
 
+  def locked?
+    if @player.y == (@base.y + 10) && @player.x >= 50
+      @won = true
+      puts "Locked to dock!"
+    end
+  end
+
+  def docked?
+    exit if @player.x >= 90
+  end
+
+
   def tick
     move_player
     move_base
     increase_counter
+    locked?
+    docked?
   end
 
   def input_map
@@ -57,11 +72,11 @@ class AsciiElite
   end
 
   def move_top
-    @player.move(0, -1)
+    @player.move(0, -1) unless @won
   end
 
   def move_down
-    @player.move(0, 1)
+    @player.move(0, 1) unless @won
   end
 
   def objects
