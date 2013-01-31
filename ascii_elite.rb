@@ -23,8 +23,20 @@ class AsciiElite
   def initialize(width, height)
     @width = width
     @height = height
-    @player = Player.new(5,5)
-    @base = SpaceBase.new(10,10)
+    @player = Player.new(5,19)
+    @base = SpaceBase.new(90,0)
+  end
+
+  def move_base
+    @base.y = @base.y + rand(-1..1)
+  end
+
+  def move_player
+    @player.x = @player.x + 1
+  end
+
+  def increase_counter
+
   end
 
   def wait?
@@ -32,6 +44,9 @@ class AsciiElite
   end
 
   def tick
+    move_player
+    move_base
+    increase_counter
   end
 
   def input_map
@@ -58,7 +73,7 @@ class AsciiElite
   end
 
   def textbox_content
-    "textbox"
+    # counter.to_s
   end
 
   def exit
