@@ -2,14 +2,14 @@
 
 require "bundler/setup"
 require "gaminator"
-load "space_base.rb"
 
 require_relative "ascii_elite/char"
 require_relative "ascii_elite/menu"
 require_relative "ascii_elite/shop_game"
 require_relative "ascii_elite/dock_game"
-
-load "space_base.rb"
+require_relative "ascii_elite/intro_game"
+require_relative "ascii_elite/space_base"
+require_relative "ascii_elite/logo"
 
 class AsciiElite
   def initialize(width, height)
@@ -18,7 +18,8 @@ class AsciiElite
     @exit_message = ''
 
     @game_state = :shop
-    @game = ShopGame.new(@width, @height)
+    # @game = ShopGame.new(@width, @height)
+    @game = IntroGame.new(@width, @height)
   end
 
   def input_map

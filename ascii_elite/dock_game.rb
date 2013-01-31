@@ -19,7 +19,9 @@ class DockGame
     @height = height
     @player = Player.new(5,19)
     @base = SpaceBase.new(90,0)
+    @intro = Intro.new(1,1)
     @won = false
+
   end
 
   def move_base
