@@ -38,7 +38,7 @@ class DockGame
   end
 
   def locked?
-    if @player.y == (@base.y + 10) && @player.x >= 50
+    if @player.y == (@base.y + 10) && @player.x >= 65
       @won = true
     end
   end
