@@ -3,26 +3,16 @@
 require "bundler/setup"
 require "gaminator"
 
+
+require_relative "ascii_elite/char"
+require_relative "ascii_elite/menu"
+
 class AsciiElite
-  class Player < Struct.new(:x, :y)
-    def char
-      "@"
-    end
-
-    def color
-      Curses::COLOR_RED
-    end
-
-    def move(x, y)
-      self.x += x
-      self.y += y
-    end
-  end
-
   def initialize(width, height)
     @width = width
     @height = height
-    @player = Player.new(5,5)
+
+    @menu = Menu.new(['1. Buy stuff', '2. Leave the space station'])
   end
 
   def wait?
@@ -40,23 +30,31 @@ class AsciiElite
   end
 
   def move_top
-    @player.move(0, -1)
+    @menu.move(:top)
   end
 
   def move_down
-    @player.move(0, 1)
+    @menu.move(:down)
+  end
+
+  def move_left
+    finish
+  end
+
+  def move_right
+    finish
   end
 
   def objects
-    [@player]
+    @menu.objects
   end
 
   def finish
-    exit
+    Kernel.exit
   end
 
   def textbox_content
-    "textbox"
+    @selection.to_s
   end
 
   def exit
