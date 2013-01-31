@@ -2,14 +2,16 @@
 
 require "bundler/setup"
 require "gaminator"
-load "space_base.rb"
 
 require_relative "ascii_elite/char"
 require_relative "ascii_elite/menu"
 require_relative "ascii_elite/shop_game"
 require_relative "ascii_elite/dock_game"
-
-load "space_base.rb"
+require_relative "ascii_elite/intro_game"
+require_relative "ascii_elite/warp_game"
+require_relative "ascii_elite/space_base"
+require_relative "ascii_elite/logo"
+require_relative "ascii_elite/space_ship_in_warp"
 
 class AsciiElite
   def initialize(width, height)
@@ -24,7 +26,7 @@ class AsciiElite
     @planet = PLANETS[@planet_name]
 
     @game_state = :shop
-    @game = ShopGame.new(@width, @height, @planet_name)
+    @game = IntroGame.new(@width, @height)
   end
 
   def input_map
@@ -48,7 +50,6 @@ class AsciiElite
   end
 
   def tick
-    @game.tick
     update_game_state(@game.tick)
   end
 
@@ -92,10 +93,14 @@ class AsciiElite
     return unless action
 
     case action.to_s.to_sym
+    when :go_to_shop
+      @game = ShopGame.new(@width, @height, @planet_name)
     when :go_to_dock_game
       @game = DockGame.new(@width, @height)
     when :docked
-      @game = ShopGame.new(@width, @height)
+      @game = ShopGame.new(@width, @height, @planet_name)
+    when :go_to_warp
+      @game = WarpGame.new(@width, @height)
     when :dead
       @exit_message = 'You are dead ;('
       Kernel.exit

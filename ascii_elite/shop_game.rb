@@ -18,7 +18,7 @@ class ShopGame
       :buy_minerals  => "Buy minerals   #{@planet[:minerals_price] - 0.1}",
       :sell_minerals => "Sell minerals  #{@planet[:minerals_price]}",
       :_             => " ",
-      :leave         => "Leave",
+      :go_to_warp    => "Leave",
     }
     @menu = Menu.new(@options.values)
   end
@@ -52,7 +52,7 @@ class ShopGame
   end
 
   def move_left
-    :go_to_dock_game
+    #:go_to_dock_game
   end
 
   def move_right

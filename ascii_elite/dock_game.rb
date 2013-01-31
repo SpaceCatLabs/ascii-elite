@@ -1,6 +1,6 @@
 class Player < Struct.new(:x, :y)
   def char
-    "@"
+    "=>"
   end
 
   def color
@@ -20,6 +20,7 @@ class DockGame
     @player = Player.new(5,19)
     @base = SpaceBase.new(90,0)
     @won = false
+
   end
 
   def move_base
@@ -38,7 +39,7 @@ class DockGame
   end
 
   def locked?
-    if @player.y == (@base.y + 10) && @player.x >= 50
+    if @player.y == (@base.y + 10) && @player.x >= 65
       @won = true
     end
   end
