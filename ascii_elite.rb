@@ -2,71 +2,96 @@
 
 require "bundler/setup"
 require "gaminator"
-
+load "space_base.rb"
 
 require_relative "ascii_elite/char"
 require_relative "ascii_elite/menu"
+require_relative "ascii_elite/shop_game"
+require_relative "ascii_elite/dock_game"
+
+load "space_base.rb"
 
 class AsciiElite
   def initialize(width, height)
     @width = width
     @height = height
+    @exit_message = ''
 
-    @menu = Menu.new(['1. Buy stuff', '2. Leave the space station'])
-  end
-
-  def wait?
-    true
-  end
-
-  def tick
+    @game_state = :shop
+    @game = ShopGame.new(@width, @height)
   end
 
   def input_map
     {
       ?w => :move_top,
       ?s => :move_down,
+      ?a => :move_left,
+      ?d => :move_right,
     }
   end
 
-  def move_top
-    @menu.move(:top)
-  end
-
-  def move_down
-    @menu.move(:down)
-  end
-
-  def move_left
-    finish
-  end
-
-  def move_right
-    finish
-  end
-
-  def objects
-    @menu.objects
-  end
-
-  def finish
-    Kernel.exit
-  end
-
-  def textbox_content
-    @selection.to_s
-  end
-
-  def exit
-    Kernel.exit
-  end
-
-  def exit_message
-    "exit"
+  #
+  # All methods below are delegated to @gmae
+  #
+  def wait?
+    @game.wait?
   end
 
   def sleep_time
-    0.05
+    @game.sleep_time
+  end
+
+  def tick
+    @game.tick
+    update_game_state(@game.tick)
+  end
+
+  def move_top
+    update_game_state(@game.move_top) if @game.respond_to? :move_top
+  end
+
+  def move_down
+    update_game_state(@game.move_down) if @game.respond_to? :move_down
+  end
+
+  def move_left
+    update_game_state(@game.move_left) if @game.respond_to? :move_left
+  end
+
+  def move_right
+    update_game_state(@game.move_right) if @game.respond_to? :move_right
+  end
+
+  def objects
+    @game.objects
+  end
+
+  def finish
+    @game.finish
+  end
+
+  def textbox_content
+    @game.textbox_content
+  end
+
+  def exit
+    @game.exit
+  end
+
+  def exit_message
+    @exit_message
+  end
+
+  def update_game_state(action)
+    case action
+    when :go_to_dock_game
+      @game = DockGame.new(@width, @height)
+    when :docked
+      @game = ShopGame.new(@width, @height)
+    when :dead
+      @exit_message = 'You are dead ;('
+      Kernel.exit
+    end
   end
 
 end
